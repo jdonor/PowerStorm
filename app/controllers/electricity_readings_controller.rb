@@ -40,6 +40,7 @@ class ElectricityReadingsController < ApplicationController
   # POST /electricity_readings
   # POST /electricity_readings.xml
   def create
+    return unless params[:auth] == "foobar" # "authentication" :3
     d = JSON.parse params[:electricity_reading]
     @electricity_reading = ElectricityReading.new(:meter_id => d["meter_id"], :power => d["power"], :date_time => Time.now.to_datetime)
     
