@@ -1,4 +1,12 @@
 PowerStorm::Application.routes.draw do
+  resources :weathers
+
+  resources :electricity_readings
+
+  resources :meters
+
+  resources :buildings
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
