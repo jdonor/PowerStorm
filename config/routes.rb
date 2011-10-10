@@ -1,4 +1,6 @@
 PowerStorm::Application.routes.draw do
+  resources :users
+
   resources :weathers
 
   resources :electricity_readings
@@ -6,6 +8,8 @@ PowerStorm::Application.routes.draw do
   resources :meters
 
   resources :buildings
+  
+  root :to => 'Buildings#index'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
