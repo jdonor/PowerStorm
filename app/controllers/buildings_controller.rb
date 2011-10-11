@@ -1,6 +1,4 @@
 class BuildingsController < ApplicationController
-  skip_before_filter :authorize, :only => [:index, :show]
-
   # GET /buildings
   # GET /buildings.xml
   def index

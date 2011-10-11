@@ -1,13 +1,15 @@
 PowerStorm::Application.routes.draw do
+
+
   get "admin" => 'admin#index'
   
+  resources :buildings
   resources :users
   resources :weathers
   resources :electricity_readings
   resources :meters
-  resources :buildings
   
-  root :to => 'Buildings#index', :as => 'buildings'
+  root :to => 'Buildings#index'
   
   controller :sessions do
     get 'login' => :new
