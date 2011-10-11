@@ -1,11 +1,13 @@
 <h1>Listing buildings</h1>
 
-<table>
+<table border="1">
   <tr>
+    <th>ID</th>
     <th>Building name</th>
     <th>Occupants</th>
     <th>Capacity</th>
     <th>Area</th>
+    <th>Meter</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,10 +15,26 @@
 
 <% @buildings.each do |building| %>
   <tr>
+    <td><%= building.id %></td>
     <td><%= building.building_name %></td>
     <td><%= building.occupants %></td>
     <td><%= building.capacity %></td>
     <td><%= building.area %></td>
+    <td>
+      <% building.meter.all.each do |meter| %>
+      <table border="1">
+        <tr>
+          <th>ID</th>
+          <th>IP</th>
+        </tr>
+        
+        <tr>
+          <td><%= meter.id %></td>
+          <td><%= meter.ip %></td>
+        </tr>
+      </table>
+      <% end %>
+    </td>
     <td><%= link_to 'Show', building %></td>
     <td><%= link_to 'Edit', edit_building_path(building) %></td>
     <td><%= link_to 'Destroy', building, :confirm => 'Are you sure?', :method => :delete %></td>

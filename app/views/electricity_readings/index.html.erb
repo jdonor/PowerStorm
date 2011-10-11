@@ -2,16 +2,15 @@
 
 <table>
   <tr>
+    <th>ID</th>
     <th>Date time</th>
     <th>Meter</th>
     <th>Power</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @electricity_readings.each do |electricity_reading| %>
   <tr>
+    <td><%= electricity_reading.id %></td>
     <td><%= electricity_reading.date_time %></td>
     <td><%= electricity_reading.meter_id %></td>
     <td><%= electricity_reading.power %></td>

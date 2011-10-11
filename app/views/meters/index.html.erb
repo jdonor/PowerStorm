@@ -2,15 +2,14 @@
 
 <table>
   <tr>
+    <th>ID</th>
     <th>Ip</th>
     <th>Building</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @meters.each do |meter| %>
   <tr>
+    <td><%= meter.id %></td>
     <td><%= meter.ip %></td>
     <td><%= meter.building_id %></td>
     <td><%= link_to 'Show', meter %></td>
