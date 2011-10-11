@@ -40,10 +40,8 @@ class ElectricityReadingsController < ApplicationController
   # POST /electricity_readings
   # POST /electricity_readings.xml
   def create
-    return unless params[:auth] == "foobar" # "authentication" :3
-    d = JSON.parse params[:electricity_reading]
-    @electricity_reading = ElectricityReading.new(:meter_id => d["meter_id"], :power => d["power"], :date_time => Time.now.to_datetime)
-    
+    @electricity_reading = ElectricityReading.new(params[:electricity_reading])
+
     respond_to do |format|
       if @electricity_reading.save
         format.html { redirect_to(@electricity_reading, :notice => 'Electricity reading was successfully created.') }
