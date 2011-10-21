@@ -1,10 +1,10 @@
 <img src="images/map.png" width="746" height="488" />
 
-<div onload="main();" id="canvas">
+<div id="canvas">
   <div id="paper"></div>
 
   <% @buildings.each do |building| %>
-  <div class="buildings" id="<%= building.abbreviation %>">
+  <div class="buildings" id="<%= building.abbreviation %>" style>
     <h2><%= building.building_name %></h2>
     <p><%= building.capacity %></p>
   </div>
