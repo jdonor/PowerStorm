@@ -1,0 +1,35 @@
+#canvas {
+  height: 493px;
+  left: 0px;
+  margin: 0px 0 0 0px;
+  position: absolute;
+  top: 0px;
+  width: 746px;
+}
+
+#paper {
+  height: 488px;
+  left: 13px;
+  position: absolute;
+  top: 5px;
+  width: 746px;
+}
+
+.buildings {
+  display: none;
+  height: 400px;
+  overflow: auto;
+  position: absolute;
+  right: -320px;
+  top: 0;
+  width: 300px;
+}
+
+h2 {
+  text-align: center;
+}
+			
+img {
+  opacity:0.35;
+  filter:alpha(opacity=40); /* For IE8 and earlier */
+}
