@@ -5,6 +5,7 @@ class BuildingsController < ApplicationController
   # GET /buildings.xml
   def index
     @buildings = Building.all
+    @logged_out = User.find_by_id(session[:user_id]).nil?
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +16,11 @@ class BuildingsController < ApplicationController
   # GET /buildings/1
   # GET /buildings/1.xml
   def show
-    @building = Building.find(params[:id])
+    if params[:abbreviation]
+      @building = Building.where(:abbreviation => params[:abbreviation]).first
+    else
+      @building = Building.find(params[:id])
+    end
 
     respond_to do |format|
       format.html # show.html.erb

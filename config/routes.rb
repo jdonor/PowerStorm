@@ -11,6 +11,8 @@ PowerStorm::Application.routes.draw do
   
   root :to => 'Buildings#index'
   
+  match 'abr/:abbreviation' => 'Buildings#show'
+  
   controller :sessions do
     get 'login' => :new
     post 'login' => :create

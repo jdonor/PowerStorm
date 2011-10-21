@@ -33,3 +33,7 @@ img {
   opacity:0.35;
   filter:alpha(opacity=40); /* For IE8 and earlier */
 }
+
+.building_info {
+  font-size: 18px;
+}

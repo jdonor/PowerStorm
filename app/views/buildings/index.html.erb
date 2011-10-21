@@ -1,12 +1,22 @@
+<%= javascript_include_tag "raphael.js", "map_render.js" %>
 <img src="images/map.png" width="746" height="488" />
-
 <div id="canvas">
   <div id="paper"></div>
-
   <% @buildings.each do |building| %>
   <div class="buildings" id="<%= building.abbreviation %>" style>
     <h2><%= building.building_name %></h2>
-    <p><%= building.capacity %></p>
+    <% if building.building_type == "dorm" %>
+      <div>
+        <p class="building_info">Occupant Capacity: <%= building.capacity %></p>
+        <p class="building_info">Area: <%= building.area %> square feet</p>
+      </div>
+    <% else %>
+      <p class="building_info">No data available.</p>
+    <% end %>
   </div>
   <% end %>
 </div>
+
+<% unless @logged_out %>
+  <%= link_to 'Logout', logout_path, :method => :delete %>
+<% end %>
