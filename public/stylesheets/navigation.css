@@ -1,0 +1,21 @@
+
+
+
+/*--------------------------------------------------
+	Layout Settings
+--------------------------------------------------*/
+header { max-width:100%;
+	min-height:25px;
+	border-bottom: 1px solid gray;
+	padding-bottom: 1%;
+	}
+#logo_left {	width:50%;}
+#logo_right { 	position:absolute;
+		right:0px;
+		top:8px;
+		width:50%;
+		 }
+
+header img{ width:100%; 
+	margin-bottom:0px;
+	opacity: 1;}

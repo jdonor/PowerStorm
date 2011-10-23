@@ -93,7 +93,6 @@ window.onload = function () {
         whitworth[state].color = Raphael.getColor();
         (function (st, state) {
             st[0].onclick = function() {
-              console.log(String(state));
               location.href = "/abr/" + String(state);
             };
             st[0].style.cursor = "pointer";
