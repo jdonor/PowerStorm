@@ -1,5 +1,5 @@
 class BuildingsController < ApplicationController
-  skip_before_filter :authorize, :only => [:index, :show]
+  skip_before_filter :authorize, :only => [:index, :show, :ajax_update]
 
   # GET /buildings
   # GET /buildings.xml
@@ -23,6 +23,7 @@ class BuildingsController < ApplicationController
     end
 
     respond_to do |format|
+      format.js { render :json => @building }
       format.html # show.html.erb
       format.xml  { render :xml => @building }
     end
@@ -85,6 +86,14 @@ class BuildingsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(buildings_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  def ajax_update
+    @building = Building.where(:abbreviation => params[:building]).first
+    
+    respond_to do |format|
+      format.json { render :json => @building }
     end
   end
 end

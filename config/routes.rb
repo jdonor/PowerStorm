@@ -18,4 +18,8 @@ PowerStorm::Application.routes.draw do
     post 'login' => :create
     delete 'logout' => :destroy
   end
+  
+  controller :buildings do
+    post 'ajax_update' => :ajax_update
+  end
 end
