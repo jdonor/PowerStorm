@@ -20,3 +20,9 @@
 <% unless @logged_out %>
   <%= link_to 'Logout', logout_path, :method => :delete %>
 <% end %>
+
+<% @buildings.each do |building| %>
+ <% building.meters.each do |meter| %>
+   <p>meter.id</p>
+ <% end %>
+<% end %>
