@@ -14,7 +14,7 @@
 #paper {
   position:absolute;
 
-  left:14px;
+  left:13px;
   /*height: 488px;*/
   /*left: 13px;
   position: absolute;
@@ -23,8 +23,9 @@
 }
 
 #map_image {
-  opacity:.35;
-  filter:alpha(opacity=40)
+  opacity:.45;
+  filter:alpha(opacity=40);
+  
 }
 
 .buildings {
