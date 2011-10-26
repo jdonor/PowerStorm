@@ -92,8 +92,23 @@ class BuildingsController < ApplicationController
   def ajax_update
     @building = Building.where(:abbreviation => params[:building]).first
     
+	info = {:current => 0, :max => 0, :monthly => 0, :daily => 0, :hourly => 0}
+	
+	if params[:type] == "update"
+		@building.meters.each do |meter|
+			info[:max] += meter.electricity_readings.order(:power).reverse_order.first.power
+			info[:current] += meter.electricity_readings.order(:date_time).reverse_order.first.power
+		end
+	else
+		@building.meters.each do |meter|
+			by_month = meter.electricity_readings.group_by { |t| t.date_time.beginning_of_month }
+			
+		end
+	end
+	
+	
     respond_to do |format|
-      format.json { render :json => @building }
+      format.json { render :json => info }
     end
   end
 end

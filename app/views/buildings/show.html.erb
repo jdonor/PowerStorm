@@ -23,12 +23,22 @@
 		drawChart();
 	}
 	
-	window.onload = function () {
+	function update_info(callback) {
 	  var a = location.href.split('/');
 	  var abr = a[a.length - 1];
-	  jQuery.post('/ajax_update', {building: abr}, function(data) {
-	    console.log(data);
+		setInterval(function() {
+		  jQuery.post('/ajax_update', {building: abr, type: "update"}, function(data) {
+			var d = eval(data);
+			callback(d);
+		  });
+	    }, 5 * 60000);
+	}
+	
+	window.onload = function () {
+	  update_info(function(data) {
+		console.log(data); // TODO use this for charts and stuff
 	  });
+	  jQuery.post('/ajax_update', {building
 	}
 
     </script>
@@ -63,8 +73,5 @@
 		</div>
 	</div>
 <div>
-
-<div id="ajaxtest"></div>
-
 
 <div id="chart"> <h1>Show me the chart!</h1></div>

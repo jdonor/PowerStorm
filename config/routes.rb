@@ -1,9 +1,14 @@
 PowerStorm::Application.routes.draw do
 
 
+  get "contact/index"
+
   get "about" => "about_page#index"
-  
+  get "contact" => "contact#index"
+ 
   match "about" => "about_page#index"
+  match "contact" => "contact#index"
+  match "admin" => "Admin#index"
   
   resources :buildings
   resources :users

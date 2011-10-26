@@ -19,3 +19,12 @@ header { max-width:100%;
 header img{ width:100%; 
 	margin-bottom:0px;
 	opacity: 1;}
+
+.main_text_field {
+	color:gray; 
+	width:900px; 
+	margin:auto; 
+	border:1px gray solid; 
+	margin-top:10px; 
+	padding:10px;
+}
