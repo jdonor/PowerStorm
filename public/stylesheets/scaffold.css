@@ -12,17 +12,11 @@ pre {
   font-size: 11px;
 }
 
-<<<<<<< HEAD
-/*a { color: #000; }
-a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }*/
-=======
 /*  Commented out so that background doesn't default to black
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
 */
->>>>>>> a6995504639a37df75463d6ed848f2b4a7da9ea7
 
 div.field, div.actions {
   margin-bottom: 10px;
