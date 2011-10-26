@@ -1,3 +1,4 @@
+// Function to get all elements of a specific class
 document.getElementsByClassName = function(cl) {
 	var retnode = [];
 	var myclass = new RegExp('\\b'+cl+'\\b');
@@ -10,14 +11,18 @@ document.getElementsByClassName = function(cl) {
 };
 
 window.onresize = function(event) {
+    /* The following blocks were attempts to get the raphael paper to scale, it is not currently working
+    //resizePaper();
     //document.getElementById("paper").innerHTML = "";
     //R.clear();
     //draw_svg_map(map_width(), map_height( map_width() ));
+    */
 
+    /* Having issues with resizing raphael, so image won't be resized right now
     // resize image
-    //document.getElementById("map_image").width = map_width();
-    //document.getElementById("map_image").height = map_height( map_width() );
- 
+    document.getElementById("map_image").width = map_width();
+    document.getElementById("map_image").height = map_height( map_width() );
+    */
     // move the paper div so that the svg lines up with the map image
     align_divs_under_nav_bar();
 
@@ -27,37 +32,48 @@ window.onresize = function(event) {
 };
 
 window.onload = function () {
-    align_divs_under_nav_bar();
-
     last_sizeX = map_width();
     original_w = window.innerWidth;
     original_h = window.innerHeight;
     draw_svg_map(map_width(), map_height( map_width() ));
+    resizePaper();
+    align_divs_under_nav_bar();
 };
 
 align_divs_under_nav_bar = function() {
-    var height = document.getElementById("head").offsetHeight;
-    height = height + 5;
-    document.getElementById("paper").style.top = height +'px';
+    // realign the raphael paper div over the image
+    var head_height = document.getElementById("head").offsetHeight;
+    head_height = head_height + 5;
+    var paper_height = document.getElementById("paper").offsetHeight;
+    var paper_div = document.getElementById("paper");
+    //paper_div.style.top = (head_height - paper_height + 42) +'px';  // for use with scale raphael
+    paper_div.style.top = head_height + 'px';
+    //paper_div.style.left = -10;   doesn't work
+    
+    // realign the building information divs to below the header bar
     var elements = document.getElementsByClassName("buildings");
     var count = 0;
     while (count < elements.size() ) {
-	var current = elements[count];
-	current.style.top = height + 'px';
-	count++;
-    };
-/*
-    var current = elements[0];
-    current.style.top = height + 'px'; */
-}
-
-/*
-scale_percentage = function () {
-    var current_w = window.innerWidth;
-    var scale_percent = current_w / original_w;
-    return scale_percent;
+	    var current = elements[count];
+	    current.style.top = head_height + 'px';
+	    count++;
+    }
 };
-*/
+
+resizePaper = function(){
+   var w = 0, h = 0;
+   if (window.innerWidth){
+      w = window.innerWidth;
+      h = window.innerHeight;
+   }else if(document.documentElement &&
+           (document.documentElement.clientWidth || 
+            document.documentElement.clientHeight)) { 
+            w = document.documentElement.clientWidth;
+            h = document.documentElement.clientHeight;
+   }
+   //R.changeSize(w, h, true, false);
+   //R.scaleAll( last_sizeX );
+}
 
 scale_percentage = function ( last_w ) {
     var scale = map_width() / last_w;
@@ -81,7 +97,7 @@ draw_svg_map = function(sizeX, sizeY){
     //var new_scale = 1;
     //if ( sizeX != last_sizeX ) { new_scale = scale_percentage( last_sizeX ); }
 
-    R = new ScaleRaphael("paper", sizeX, sizeY);
+    R = new Raphael("paper", sizeX, sizeY);
     var attr = {
         fill: "#333",
         stroke: "#666",
