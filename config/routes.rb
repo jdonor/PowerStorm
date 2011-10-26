@@ -1,7 +1,9 @@
 PowerStorm::Application.routes.draw do
 
 
-  get "admin" => 'admin#index'
+  get "about" => "about_page#index"
+  
+  match "about" => "about_page#index"
   
   resources :buildings
   resources :users
