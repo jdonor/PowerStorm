@@ -1,5 +1,87 @@
+document.getElementsByClassName = function(cl) {
+	var retnode = [];
+	var myclass = new RegExp('\\b'+cl+'\\b');
+	var elem = this.getElementsByTagName('*');
+	for (var i = 0; i < elem.length; i++) {
+	var classes = elem[i].className;
+	if (myclass.test(classes)) retnode.push(elem[i]);
+	}
+	return retnode;
+};
+
+window.onresize = function(event) {
+    //document.getElementById("paper").innerHTML = "";
+    //R.clear();
+    //draw_svg_map(map_width(), map_height( map_width() ));
+
+    // resize image
+    //document.getElementById("map_image").width = map_width();
+    //document.getElementById("map_image").height = map_height( map_width() );
+ 
+    // move the paper div so that the svg lines up with the map image
+    align_divs_under_nav_bar();
+
+    // store current page width/height
+    original_w = window.innerWidth;
+    original_h = window.innerHeight;
+};
+
 window.onload = function () {
-    var R = Raphael("paper", 746, 493);
+    align_divs_under_nav_bar();
+
+    last_sizeX = map_width();
+    original_w = window.innerWidth;
+    original_h = window.innerHeight;
+    draw_svg_map(map_width(), map_height( map_width() ));
+};
+
+align_divs_under_nav_bar = function() {
+    var height = document.getElementById("head").offsetHeight;
+    height = height + 5;
+    document.getElementById("paper").style.top = height +'px';
+    var elements = document.getElementsByClassName("buildings");
+    var count = 0;
+    while (count < elements.size() ) {
+	var current = elements[count];
+	current.style.top = height + 'px';
+	count++;
+    };
+/*
+    var current = elements[0];
+    current.style.top = height + 'px'; */
+}
+
+/*
+scale_percentage = function () {
+    var current_w = window.innerWidth;
+    var scale_percent = current_w / original_w;
+    return scale_percent;
+};
+*/
+
+scale_percentage = function ( last_w ) {
+    var scale = map_width() / last_w;
+    return scale;
+}
+
+// calculate the width as 70% of window size
+map_width = function() {
+    var width = .70 * window.innerWidth;
+    return width;
+}
+
+// Calculate the height as a function of the width to maintain aspect ratio (w = 746, h = 493)
+map_height = function(width) {
+    var height = width * 493 / 746;
+    return height;
+}
+
+
+draw_svg_map = function(sizeX, sizeY){
+    //var new_scale = 1;
+    //if ( sizeX != last_sizeX ) { new_scale = scale_percentage( last_sizeX ); }
+
+    R = new ScaleRaphael("paper", sizeX, sizeY);
     var attr = {
         fill: "#333",
         stroke: "#666",
@@ -84,13 +166,19 @@ window.onload = function () {
 
     whitworth.cos = R.path("M104.375,416.625L136.625,417.625L136.625,430.875L104.375,430.875Z").attr(attr);
 
-
-
+    //console.log(whitworth["hub"]);
+    //whitworth["hub"].scale( new_scale, new_scale );
+    //whitworth["hub"].scale( .1, .1 );
 
 
     var current = null;
     for (var state in whitworth) {
+	//console.log(state);
         whitworth[state].color = Raphael.getColor();
+	//console.log(whitworth[state]);
+        // scale the path to current window size
+        //whitworth[state].scale( new_scale, new_scale );
+	//whitworth[state].scale( .1, .1 );
         (function (st, state) {
             st[0].onclick = function() {
               location.href = "/abr/" + String(state);
@@ -123,4 +211,8 @@ window.onload = function () {
             }
         })(whitworth[state], state);
     }
+
+    // save last dimensions
+    last_sizeX = sizeX;
+    last_sizeY = sizeY;
 };

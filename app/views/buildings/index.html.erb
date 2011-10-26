@@ -1,5 +1,5 @@
-<%= javascript_include_tag "raphael.js", "map_render.js" %>
-<img src="images/map.png" width="746" height="488" />
+<%= javascript_include_tag "raphael.js", "map_render.js", "scale.raphael.js"%>
+<img id="map_image" src="images/map.png"/>
 <div id="canvas">
   <div id="paper"></div>
   <% @buildings.each do |building| %>

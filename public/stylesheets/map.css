@@ -1,38 +1,49 @@
 #canvas {
-  height: 493px;
-  left: 0px;
+  
+  /*height: 493px;*/
+  /*left: 0px;
   margin: 0px 0 0 0px;
   position: absolute;
-  top: 0px;
-  width: 746px;
+  top: 0px;*/
+  width:75%;
+  height:80%;
+  
+  /*width: 746px;*/
 }
 
 #paper {
-  height: 488px;
-  left: 13px;
+  position:absolute;
+
+  left:14px;
+  /*height: 488px;*/
+  /*left: 13px;
   position: absolute;
-  top: 5px;
-  width: 746px;
+  top: 5px;*/
+  /*width: 746px;*/
+}
+
+#map_image {
+  opacity:.35;
+  filter:alpha(opacity=40)
 }
 
 .buildings {
   display: none;
-  height: 400px;
+  /*height: 400px;*/
   overflow: auto;
   position: absolute;
-  right: -320px;
+  right:0px;
+  height:80%;
+  width:25%;
+  /*right: -320px;
   top: 0;
-  width: 300px;
+  width: 300px;*/
 }
 
-h2 {
+.buildings h2 {
   text-align: center;
 }
 			
-img {
-  opacity:0.35;
-  filter:alpha(opacity=40); /* For IE8 and earlier */
-}
 
 .building_info {
   font-size: 18px;
