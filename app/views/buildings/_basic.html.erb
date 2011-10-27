@@ -1,0 +1,81 @@
+<%= javascript_include_tag "https://www.google.com/jsapi" %>
+<%= stylesheet_link_tag "building_show.css" %>
+
+
+<script type="text/javascript">
+	google.load("visualization", "1", {packages:["corechart"]});
+      	google.setOnLoadCallback(drawChart);
+	function drawChart() {
+		var data = new google.visualization.DataTable();
+        	data.addColumn('number', 'KWh');
+        	data.addRows(1);
+        	data.setValue(0, 0, 250);
+
+        	var chart = new google.visualization.BarChart(document.getElementById('chart'));
+        	chart.draw(data, {title: 'Current Electricity Usage', 
+				colors:['lawngreen'],
+				hAxis: {maxValue:400},
+				legend: 'none',
+				/*backgroundColor: {stroke:'gray', strokeWidth:5}*/ });
+      	}
+
+	window.onresize = function(event) {
+		drawChart();
+	}
+	
+	function update_info(callback) {
+	  var a = location.href.split('/');
+	  var abr = a[a.length - 1];
+		setInterval(function() {
+		  jQuery.post('/ajax_update', {building: abr, type: "update"}, function(data) {
+			var d = eval(data);
+			callback(d);
+		  });
+	    }, 5 * 60000);
+	}
+	
+	window.onload = function () {
+	  var a = location.href.split('/');
+	  var abr = a[a.length - 1];
+	  update_info(function(data) {
+		console.log(data); // TODO use this for charts and stuff
+	  });
+	  jQuery.post('/ajax_update', {building: abr, type: "load"}, function(data) {
+		console.log(data);
+	  });
+	}
+
+    </script>
+
+<div class="colmask threecol">
+	<div class="colmid">
+		<div class="colleft">
+			<div class="col1">
+				<!-- middle column -->
+				<div class="content">
+					<h3>Graph Part </h3>
+				</div>
+			</div>
+			<div class="col2">
+				<!-- left column -->
+				<div class="content">
+					<h3> Current Electricity Usage: </h3>
+					</br></br></br></br></br></br>
+					<p id="current_usage" class="stat_display"> 200 </br></p>
+					<p id="usage_units" class="units"> kWh </p>
+				</div>				
+			</div>
+			<div class="col3">
+				<!-- right column -->
+				<div class="content">
+					<h3>Current Cost:</h3>
+					</br></br></br></br></br></br>
+					<p id="current_cost" class="stat_display"> $512.20 </br></p>
+					<p id="cost_units" class="units"> per hour </p>
+				</div>
+			</div>
+		</div>
+	</div>
+<div>
+
+<div id="chart"> <h1>Show me the chart!</h1></div>

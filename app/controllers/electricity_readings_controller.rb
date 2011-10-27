@@ -2,7 +2,7 @@ class ElectricityReadingsController < ApplicationController
   # GET /electricity_readings
   # GET /electricity_readings.xml
   def index
-    @electricity_readings = ElectricityReading.all
+    @electricity_readings = ElectricityReading.all #.paginate(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

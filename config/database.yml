@@ -7,6 +7,7 @@ development:
   username: root
   password: 1-xiXznaCcj
   socket: /var/run/mysqld/mysqld.sock
+  flags: 196608
 
 
 # Warning: The database defined as "test" will be erased and

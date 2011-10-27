@@ -88,13 +88,15 @@ header { max-width:100%;
 }
 .threecol .col2 {
 	background: url(/images/lightning_bolt.png) no-repeat center;
-	background-size:95% 95%;
+	background-position:center;
+	background-size:65%;
 	width:21%;			/* Width of left column content (column width minus padding on either side) */
 	left:31%;			/* width of (right column) plus (center column left and right padding) plus (left column left padding) */
 }
 .threecol .col3 {
 	background:url(/images/dollar_sign.png) no-repeat right;
-	background-size:95% 95%;
+	background-position:center;
+	background-size:65%;
 	width:21%;			/* Width of right column content (column width minus padding on either side) */
 	left:85%;			/* Please make note of the brackets here:
 					(100% - left column width) plus (center column left and right padding) plus (left column left and right padding) plus (right column left padding) */

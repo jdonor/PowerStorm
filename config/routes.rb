@@ -29,4 +29,8 @@ PowerStorm::Application.routes.draw do
   controller :buildings do
     post 'ajax_update' => :ajax_update
   end
+  
+  controller :buildings do
+	get 'change_view_mode/:view_mode' => :change_view_mode
+  end
 end

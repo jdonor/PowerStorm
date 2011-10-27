@@ -1,9 +1,11 @@
 class BuildingsController < ApplicationController
-  skip_before_filter :authorize, :only => [:index, :show, :ajax_update]
+  skip_before_filter :authorize, :only => [:index, :show, :ajax_update, :change_view_mode]
+  @@TIME_OFFSET = 730.days
 
   # GET /buildings
   # GET /buildings.xml
   def index
+	session[:view_mode] = "basic"
     @buildings = Building.all
     @logged_out = User.find_by_id(session[:user_id]).nil?
 
@@ -16,6 +18,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/1
   # GET /buildings/1.xml
   def show
+	params[:on_show_page] = true
     if params[:abbreviation]
       @building = Building.where(:abbreviation => params[:abbreviation]).first
     else
@@ -100,15 +103,38 @@ class BuildingsController < ApplicationController
 			info[:current] += meter.electricity_readings.order(:date_time).reverse_order.first.power
 		end
 	else
+		info[:monthly] = 255
 		@building.meters.each do |meter|
-			by_month = meter.electricity_readings.group_by { |t| t.date_time.beginning_of_month }
+			#info[:daily] = (Time.now - @@TIME_OFFSET).year
+			#info[:current] = "CALL powerstorm_data.getSumOfMonthForMeter(#{meter.id},#{(Time.now - @@TIME_OFFSET).year},#{(Time.now - @@TIME_OFFSET).month});"
+			info[:monthly] += Building.connection.execute("CALL powerstorm_data.getSumOfMonthForMeter(#{meter.id},#{(Time.now - @@TIME_OFFSET).year},#{(Time.now - @@TIME_OFFSET).month});").first[1]
+
+		#puts Building.connection.execute("SELECT power FROM `powerstorm_data`.`electricity_readings` where id=61;").first
 			
+			
+		#	info[:monthly] += meter.electricity_readings.connection.execute("SELECT MONTH(date_time) AS h, SUM(power) AS s
+		#		FROM powerstorm_data.electricity_readings
+		#		WHERE YEAR(date_time)=#{(Time.now - @TIME_OFFSET).year}
+		#		GROUP BY MONTH(date_time)
+		#		HAVING h=#{(Time.now - @TIME_OFFSET).month};")
 		end
+
+=begin
+		info[:daily] = (Time.now - @@TIME_OFFSET).day
+		info[:monthly] = (Time.now - @@TIME_OFFSET).month
+		info[:yearly] = (Time.now - @@TIME_OFFSET).year
+=end
 	end
-	
 	
     respond_to do |format|
       format.json { render :json => info }
     end
   end
+  
+  def change_view_mode
+	session[:view_mode] = params[:view_mode]
+    respond_to do |format|
+	  format.html { redirect_to(request.referer) }
+	end
+  end  
 end
