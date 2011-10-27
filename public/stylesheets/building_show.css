@@ -1,8 +1,7 @@
+/*
 body { font-size:100%;
 	font-family:"Georgia", serif; }
-img { width: inherit; }
-header img{ width:100%; 
-	margin-bottom:0px;}
+*/
 
 /*-------------------------------------------------
 	Specific Font Settings
@@ -10,19 +9,23 @@ header img{ width:100%;
 h1 { margin-bottom: .5em; }
 
 
-p.stat_display { font-size:3em;
-		text-align:center;
-		margin-bottom:.1em;
-		font-style:bold; }
+p.stat_display {
+	margin-top:75%;
+	font-size:3em;
+	text-align:center;
+	margin-bottom:.1em;
+	font-style:bold; }
 p.units { font-size: 1em;
 	text-align:center;
-	margin-top: .3em;
-	font-style:bold; }
+	margin-top: 1em;
+	font-style:bold; 
+}
 
 
 /*--------------------------------------------------
 	Layout Settings
 --------------------------------------------------*/
+/*
 header { max-width:100%;
 	min-height:25px;
 	border-bottom: 1px solid gray;
@@ -34,6 +37,7 @@ header { max-width:100%;
 		top:8px;
 		width:50%;
 		 }
+*/
 
 /*---------------------------------------------------
 	Column Settings
@@ -71,6 +75,7 @@ header { max-width:100%;
 .threecol {
 	background:/*#eee*/ whitesmoke ;		/* right column background colour */
 	height: 70%;								/* controls the height of the three columns */
+	overflow-y:hidden;
 }
 .threecol .colmid {
 	right:25%;			/* width of the right column */
@@ -83,32 +88,41 @@ header { max-width:100%;
 	height:100%;
 }
 .threecol .col1 {
+/*	width:42%; */
 	width:46%;			/* width of center column content (column width minus padding on either side) */
 	left:102%;			/* 100% plus left padding of center column */
+	height:100%;
 }
 .threecol .col2 {
 	background: url(/images/lightning_bolt.png) no-repeat center;
-	background-position:center;
-	background-size:65%;
+	background-size:95% 95%;
 	width:21%;			/* Width of left column content (column width minus padding on either side) */
 	left:31%;			/* width of (right column) plus (center column left and right padding) plus (left column left padding) */
-}
+	height:100%;
+	}
+
 .threecol .col3 {
 	background:url(/images/dollar_sign.png) no-repeat right;
-	background-position:center;
-	background-size:65%;
+	background-size:95% 95%;
 	width:21%;			/* Width of right column content (column width minus padding on either side) */
 	left:85%;			/* Please make note of the brackets here:
 					(100% - left column width) plus (center column left and right padding) plus (left column left and right padding) plus (right column left padding) */
-}
+	height:100%;
+	}
 
-.content { opacity:1
-	width:90%;
-	height:90%; }
+.content { opacity:1;
+	width:100%;
+	height:100%; }
 
+	
 /*-------------------------------------------
 	Chart Settings
 ---------------------------------------------*/
+
+.chart_container_basic {
+	width:100%;
+	height:100%;
+}
 
 #chart {
 	position:absolute !important;
@@ -120,4 +134,5 @@ header { max-width:100%;
 	/*border-top:1px solid #000; */
 	margin-top: 1%;
 }
+
 

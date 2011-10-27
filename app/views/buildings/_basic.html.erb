@@ -1,9 +1,8 @@
 <%= javascript_include_tag "https://www.google.com/jsapi" %>
-<%= stylesheet_link_tag "building_show.css" %>
 
 
 <script type="text/javascript">
-	var colors = ['blue', 'lawngreen', 'yellow', 'red'];
+	var colors = ['aqua', 'lawngreen', 'yellow', 'red'];
 	var a = location.href.split('/');
 	var abr = a[a.length - 1];
 	
@@ -15,16 +14,50 @@
 		draw_daily_chart();
 	}
 	
+	
+	then = new Date();
+	then.changeTime('Month', 5);	
+	
+	console.log(then.sqlSafeStr());
+	console.log(new Date());
+
+	
+	
 	function draw_daily_chart() {
-		jQuery.post('/ajax_update', {building: abr, type: "Day"}, function(data) {
+		var from_date, to_date;
+		from_date = (new Date()).changeTime('Hours', -24).sqlSafeStr();
+		to_date = (new Date()).sqlSafeStr();
 		
+		jQuery.post('/ajax_update', {building: abr, type: "Hour", to: to_date, from: from_date}, function(response_data) {
+			var rd = eval(response_data).result;
+			console.log(rd);
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Hour');
+			data.addColumn('number', 'KWh');
+			data.addRows(rd.length + 1);
+			
+			data.setValue(0, 0, "12 AM");
+			data.setValue(6, 0, "6 AM");
+			data.setValue(12, 0, "12 PM");
+			data.setValue(18, 0, "6 PM");
+						
+			for (var i = 0; i < rd.length + 1; ++i) {
+				data.setValue(i, 1, rd[i]);
+			}
+
+			var chart = new google.visualization.LineChart(document.getElementById('daily_chart'));
+			chart.draw(data, {height: 400,
+							  title: 'Daily Electricity Usage',
+							  legend: 'none',
+							  hAxis: {maxValue: 1, minValue: 24}
+							 });
 		});
 	}
 	
 	function draw_barchart() {
 		jQuery.post('/ajax_update', {building: abr, type: "update"}, function(data) {
 			var d = eval(data);
-			console.log(d);
+			//console.log(d);
 			var data = new google.visualization.DataTable();
 			data.addColumn('number', 'KWh');
 			data.addRows(1);
@@ -53,6 +86,14 @@
 							  hAxis: {maxValue: d.max, minValue: d.min},
 							  legend: 'none',
 							  /*backgroundColor: {stroke:'gray', strokeWidth:5}*/});
+			jQuery('#current_usage').html(cc);
+			var cph = roundNumber(cc * 0.079, 2);
+			jQuery('#current_cost').html('$' + cph);
+			/*
+			jQuery('#current_cost').html('$' + cph + ' per hour<br />'
+				+ '$' + cph*24 + ' per day<br />'
+				+ '$' + cph*24*30 + ' per month<br />');
+				*/
 		});
 	}
 
@@ -62,7 +103,7 @@
 	
 	function update_info() {
 		setInterval(function() {
-		  d();
+		  draw_charts();
 	    }, 5 * 60000);
 	}
 	
@@ -83,15 +124,15 @@
 			<div class="col1">
 				<!-- middle column -->
 				<div class="content">
-					<h3>Graph Part </h3>
+					<div class="chart_container_basic" id="daily_chart">Chart here</div>
 				</div>
 			</div>
 			<div class="col2">
 				<!-- left column -->
 				<div class="content">
 					<h3> Current Electricity Usage: </h3>
-					</br></br></br></br></br></br>
-					<p id="current_usage" class="stat_display">200</br></p>
+					<!-- </br></br></br></br></br></br> -->
+					<p id="current_usage" class="stat_display"></br></p>
 					<p id="usage_units" class="units">kWh</p>
 				</div>				
 			</div>
@@ -99,8 +140,8 @@
 				<!-- right column -->
 				<div class="content">
 					<h3>Current Cost:</h3>
-					</br></br></br></br></br></br>
-					<p id="current_cost" class="stat_display">$512.20</br></p>
+					<!-- </br></br></br></br></br></br> -->
+					<p id="current_cost" class="stat_display"></br></p>
 					<p id="cost_units" class="units">per hour</p>
 				</div>
 			</div>

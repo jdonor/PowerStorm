@@ -1,11 +1,11 @@
 class BuildingsController < ApplicationController
   skip_before_filter :authorize, :only => [:index, :show, :ajax_update, :change_view_mode]
-  @@TIME_OFFSET = 730.days
+  @@TIME_OFFSET = 365.days
 
   # GET /buildings
   # GET /buildings.xml
   def index
-	session[:view_mode] = "basic"
+	session[:view_mode] = "basic" if session[:view_mode].nil?
     @buildings = Building.all
     @logged_out = User.find_by_id(session[:user_id]).nil?
 
@@ -18,6 +18,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/1
   # GET /buildings/1.xml
   def show
+	session[:view_mode] = "basic" if session[:view_mode].nil?
 	params[:on_show_page] = true
     if params[:abbreviation]
       @building = Building.where(:abbreviation => params[:abbreviation]).first
@@ -92,33 +93,39 @@ class BuildingsController < ApplicationController
     end
   end
   
-  def send_chart info, period, building_id, from, to
-	info[:result] = Building.connection.execute("CALL chartBy#{period}(#{building_id}, '2009-10-25 18:44:11', '2009-10-26 18:44:11');").to_a.transpose.first
+  def send_chart info, period, building_id, from_date, to_date
+	#puts(" |||||||||||||||||||  CALL chartBy#{period}(#{building_id}, '#{from_date}', '#{to_date}');")
+	info[:result] = Building.connection.execute("CALL powerstorm_data.chartBy#{period}(#{building_id}, '#{from_date}', '#{to_date}');").to_a.transpose.first.collect { |i| (i * 100).to_i / 100.0 }
   end
   
   def ajax_update
     @building = Building.where(:abbreviation => params[:building]).first
 
-	info = {:min => 0, :max => 0, :current => 0, :hourly => 0, :daily => 0, :monthly => 0, :yearly => 0}
+	info = {:min => 0, :max => 0, :current => 0, :hourly => 0, :daily => 0, :monthly => 0, :yearly => 0, :sqft => 0, :occupants => 0}
+	
+	info[:sqft] = @building.area
+	info[:occupants] = @building.capacity
 	
 	if params[:type] == "update"
 		@building.meters.each do |meter|
 			info[:min] += meter.electricity_readings.order(:power).first.power
 			info[:max] += meter.electricity_readings.order(:power).reverse_order.first.power
-			info[:current] += meter.electricity_readings.order(:date_time).reverse_order.first.power
+			info[:current] += (meter.electricity_readings.order(:date_time).reverse_order.first.power * 100).to_i / 100
 		end
 	elsif ["Day", "Month", "Year", "Hour", "Week"].include?(params[:type]) 
 		#Date.parse(params[:from])
 		#info[:result] = Building.connection.execute("CALL chartByHour(11, '2009-10-25 18:44:11', '2009-10-26 18:44:11');").to_a.transpose.first;
 		#Building.find(11).connection.execute("CALL chartByHour(11, '2009-10-25 18:44:11', '2009-10-26 18:44:11');").to_a.transpose.first
-		send_chart(info, params[:type], @building.id, '2009-10-25 18:44:11', '2009-10-26 18:44:11')
+		send_chart(info, params[:type], @building.id, params[:from], params[:to])
 
 	else
-		arr = Building.connection.execute("CALL getSumsForBuilding(#{@building.id},'#{(Time.now - @@TIME_OFFSET).to_s(:db)}')").first;
+		#puts("||||||||||||||||         CALL powerstorm_data.getSumsForBuilding(#{@building.id},'#{(Time.now - @@TIME_OFFSET).to_s(:db)}')")
+		arr = Building.connection.execute("CALL powerstorm_data.getSumsForBuilding(#{@building.id},'#{(Time.now - @@TIME_OFFSET).to_s(:db)}')").first;
 		info[:hourly] = arr[3]
-		info[:dayly] = arr[2]
+		info[:daily] = arr[2]
 		info[:monthly] = arr[1]
 		info[:yearly] = arr[0]
+		puts(">>>>>>>>>>>>>" + info.inspect)
 	end
 	
     respond_to do |format|

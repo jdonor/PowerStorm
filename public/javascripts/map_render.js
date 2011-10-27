@@ -51,6 +51,7 @@ align_divs_under_nav_bar = function() {
     //paper_div.style.left = -10;   doesn't work
     
     // realign the building information divs to below the header bar
+	/*
     var elements = document.getElementsByClassName("buildings");
     var count = 0;
     while (count < elements.size() ) {
@@ -58,6 +59,7 @@ align_divs_under_nav_bar = function() {
 	    current.style.top = head_height + 'px';
 	    count++;
     }
+	*/
 };
 
 resizePaper = function(){
@@ -97,7 +99,8 @@ draw_svg_map = function(sizeX, sizeY){
     //var new_scale = 1;
     //if ( sizeX != last_sizeX ) { new_scale = scale_percentage( last_sizeX ); }
 
-    R = new Raphael("paper", sizeX, sizeY);
+    R = new Raphael("paper", 746, 493);		//change dimensions to sizeX, sizeY for dynamic scaling (doesn't yet work)
+	R.image("/images/map_transparent.png",-5,3,746,488);		// offset a bit for cool 3d look
     var attr = {
         fill: "#333",
         stroke: "#666",

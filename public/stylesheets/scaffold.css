@@ -1,4 +1,11 @@
-body { background-color: #fff; color: #333; }
+html {
+	height:100%;
+}
+body { 
+	background-color: #fff; color: #333; 
+	height:100%;
+	overflow:hidden;
+}
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -11,6 +18,8 @@ pre {
   padding: 10px;
   font-size: 11px;
 }
+
+img { width: inherit; }	/* necessary to make nav work correctly */
 
 /*  Commented out so that background doesn't default to black
 a { color: #000; }
