@@ -1,1 +1,44 @@
-<h1 style="text-align: center">Hi, I'm the advanced page!</h1>
+<%= javascript_include_tag "https://www.google.com/jsapi" %>
+<%= javascript_include_tag "jquery.js" %>
+<%= javascript_include_tag "jquery-ui-1.8.16.custom.min.js" %>
+<%= stylesheet_link_tag "jquery-ui-1.8.16.custom.css" %>
+
+
+<div class="wrapper">
+	<div id="chart"></div>
+	<div id="tabs">
+		<!-- Tab Button Titles -->
+		<ul>
+			<li><a href="#day_usage">Today's Usage</a></li>
+			<li><a href="#month_usage">Month's Usage </a></li>
+			<li><a href="#year_usage">Year's Usage</a></li>
+			<li><a href="#all_time_usage">All-Time Usage</a></li>
+		</ul>
+		<!-- Tab Content Divs -->
+		<div id="day_usage">
+			<table class="usage_info">
+				<tr>
+					<td>Current Usage:</td>
+					<td id="current_usage">null</td>
+				</tr>
+				<tr>
+					<td>Use/Squarefoot:</td>
+					<td id="day_use_sqft">null</td>
+				</tr>
+				<tr>
+					<td>Use/Occupant:</td>
+					<td id="day_use_occupant">null</td>
+				</tr>
+			</table>
+		</div>
+		<div id="month_usage">
+			
+		</div>
+		<div id="year_usage">
+			
+		</div>
+		<div id="all_time_usage">
+			
+		</div>
+	</div>
+</div>

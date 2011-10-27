@@ -1,18 +1,24 @@
 <%= javascript_include_tag "raphael.js", "map_render.js", "scale.raphael.js"%>
 <img id="map_image" src="images/map.png"/>
 <div id="canvas">
+  <div class="paper_wrapper">
   <div id="paper"></div>
+  </div>
   <% @buildings.each do |building| %>
   <div class="buildings" id="<%= building.abbreviation %>" style>
     <h2><%= building.building_name %></h2>
-    <% if building.building_type == "dorm" %>
       <div>
-        <p class="building_info">Occupant Capacity: <%= building.capacity %></p>
-        <p class="building_info">Area: <%= building.area %> square feet</p>
+	  <p class="building_info">Building Type: <%= building.building_type.capitalize %></p>
+	  
+	  <% if building.building_type == "dorm" %>
+      <p class="building_info">Occupant Capacity: <%= building.capacity %></p>
+	  <% end %>
+	  
+	  <% if building.area %>
+	  <p class="building_info">Area: <%= building.area %> square feet</p>
+	  <% end %>
+	  
       </div>
-    <% else %>
-      <p class="building_info">No data available.</p>
-    <% end %>
   </div>
   <% end %>
 </div>

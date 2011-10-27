@@ -14,7 +14,7 @@
   	
   	console.log($(document));
 	jQuery(document).ready(function(){
-	  console.log('in function');
+	  //console.log('in function');
 		jQuery('#navigation li a').append('<span class="hover"></span>');
 		jQuery('#nav').css("opacity", "0");
 		
@@ -32,7 +32,7 @@
 		
 		// on hover over a mouse button, display the selection animation
 		jQuery('#navigation li a').hover(function() {
-			console.log($(this));
+			//console.log($(this));
 			jQuery('.hover', this).stop().animate({
 			'opacity': 1
 			}, 700);

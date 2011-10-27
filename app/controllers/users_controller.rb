@@ -81,7 +81,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to(users_url) }
+      format.html { redirect_to(request.referer) }
       format.xml  { head :ok }
     end
   end
