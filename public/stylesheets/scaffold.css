@@ -19,6 +19,8 @@ pre {
   font-size: 11px;
 }
 
+a:link {color:dimgray}	/* unvisited link */
+
 img { width: inherit; }	/* necessary to make nav work correctly */
 
 /*  Commented out so that background doesn't default to black

@@ -106,13 +106,13 @@ class BuildingsController < ApplicationController
 	info[:sqft] = @building.area
 	info[:occupants] = @building.capacity
 	
-	if params[:type] == "update"
-		@building.meters.each do |meter|
-			info[:min] += meter.electricity_readings.order(:power).first.power
-			info[:max] += meter.electricity_readings.order(:power).reverse_order.first.power
-			info[:current] += (meter.electricity_readings.order(:date_time).reverse_order.first.power * 100).to_i / 100
-		end
-	elsif ["Day", "Month", "Year", "Hour", "Week"].include?(params[:type]) 
+	@building.meters.each do |meter|
+		info[:min] += meter.electricity_readings.order(:power).first.power
+		info[:max] += meter.electricity_readings.order(:power).reverse_order.first.power
+		info[:current] += (meter.electricity_readings.order(:date_time).reverse_order.first.power * 1000).to_i / 1000.0
+	end
+	
+	if ["Day", "Month", "Year", "Hour", "Week"].include?(params[:type]) 
 		#Date.parse(params[:from])
 		#info[:result] = Building.connection.execute("CALL chartByHour(11, '2009-10-25 18:44:11', '2009-10-26 18:44:11');").to_a.transpose.first;
 		#Building.find(11).connection.execute("CALL chartByHour(11, '2009-10-25 18:44:11', '2009-10-26 18:44:11');").to_a.transpose.first
@@ -125,7 +125,7 @@ class BuildingsController < ApplicationController
 		info[:daily] = arr[2]
 		info[:monthly] = arr[1]
 		info[:yearly] = arr[0]
-		puts(">>>>>>>>>>>>>" + info.inspect)
+		#puts(">>>>>>>>>>>>>" + info.inspect)
 	end
 	
     respond_to do |format|
